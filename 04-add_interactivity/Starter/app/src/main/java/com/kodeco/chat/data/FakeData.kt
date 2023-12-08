@@ -27,47 +27,49 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package com.kodeco.chat
+package com.kodeco.chat.data
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import com.kodeco.chat.conversation.ConversationUiState
+import com.kodeco.chat.conversation.Message
+import com.kodeco.chat.data.model.MessageUiModel
+import com.kodeco.chat.data.model.User
+import kotlinx.datetime.Instant
 
-class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-      Column {
-        val context = LocalContext.current
-        val chatInputText by remember { mutableStateOf(context.getString(R.string.chat_entry_default)) }
-        val chatOutputText by remember { mutableStateOf(context.getString(R.string.chat_display_default)) }
-        Text(text = chatOutputText)
+private val sampleMessageTexts = listOf(
+    Message(
+        roomId = "Android Apprentice",
+        createdOn = Instant.parse("2023-11-16T05:48:01Z"),
+        text = "Hey what do you think of this new Android Apprentice book 📖 from https://Kodeco.com ?",
+        userId = "other"
+    ),
+    Message(
+        roomId = "Android Apprentice",
+        createdOn = Instant.parse("2023-11-17T05:48:01Z"),
+        text = "it's pretty 😍 awesome 💯😎. I learned how to make some cool apps including this chat app! 😄🤩🎉",
+        userId = "me"
+    ),
+    Message(
+        roomId = "Android Apprentice",
+        text = "Wow!",
+        userId = "other"
+    ),
+)
 
-        OutlinedTextField(
-          value = chatInputText,
-          onValueChange = {
-          },
-          label = { Text(text = stringResource(id = R.string.chat_entry_label)) }
-        )
+private val meUser = User(id = "me", firstName = "Fuad", lastName = "Kamal")
+private val otherUser = User(id = "other", firstName = "Sally", lastName = "Walden")
 
-        Button(onClick = {}) {
-          Text(text = stringResource(id = R.string.send_button))
-        }
-      }
-    }
-  }
-}
+private val initialMessages = listOf(
+    MessageUiModel(message = sampleMessageTexts[0], user = otherUser, id = "0"),
+    MessageUiModel(message = sampleMessageTexts[1], user = meUser, id = "1"),
+    MessageUiModel(message = sampleMessageTexts[2], user = otherUser, id = "2")
+)
+
+val exampleUiState = ConversationUiState(
+    initialMessages = initialMessages,
+    channelName = "#Android Apprentice",
+)

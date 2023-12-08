@@ -27,47 +27,42 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package com.kodeco.chat
+package com.kodeco.chat.conversation
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import android.net.Uri
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.toMutableStateList
+import com.kodeco.chat.R
+import com.kodeco.chat.data.model.MessageUiModel
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import java.util.UUID
 
-class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-      Column {
-        val context = LocalContext.current
-        val chatInputText by remember { mutableStateOf(context.getString(R.string.chat_entry_default)) }
-        val chatOutputText by remember { mutableStateOf(context.getString(R.string.chat_display_default)) }
-        Text(text = chatOutputText)
+class ConversationUiState(
+  val channelName: String,
+  initialMessages: List<MessageUiModel>,
+) {
+  private val _messages: MutableList<MessageUiModel> = initialMessages.toMutableStateList()
 
-        OutlinedTextField(
-          value = chatInputText,
-          onValueChange = {
-          },
-          label = { Text(text = stringResource(id = R.string.chat_entry_label)) }
-        )
+  val messages: List<MessageUiModel> = _messages
 
-        Button(onClick = {}) {
-          Text(text = stringResource(id = R.string.send_button))
-        }
-      }
-    }
+  fun addMessage(msg: String, photoUri: Uri?) {
+    // TODO : implement in Chapter 6 😀
   }
 }
+
+@Immutable
+data class Message(
+  val _id: String = UUID.randomUUID().toString(),
+  val createdOn: Instant? = Clock.System.now(),
+  val roomId: String = "public", // "public" is the roomID for the default public chat room
+  val text: String = "test",
+  val userId: String = UUID.randomUUID().toString(),
+  val photoUri: Uri? = null,
+  val authorImage: Int = if (userId == "me") R.drawable.profile_photo_android_developer else R.drawable.someone_else
+)

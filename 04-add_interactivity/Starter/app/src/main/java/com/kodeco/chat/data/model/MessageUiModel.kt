@@ -27,47 +27,42 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package com.kodeco.chat
+package com.kodeco.chat.data.model
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import com.kodeco.chat.conversation.Message
 
-class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-      Column {
-        val context = LocalContext.current
-        val chatInputText by remember { mutableStateOf(context.getString(R.string.chat_entry_default)) }
-        val chatOutputText by remember { mutableStateOf(context.getString(R.string.chat_display_default)) }
-        Text(text = chatOutputText)
 
-        OutlinedTextField(
-          value = chatInputText,
-          onValueChange = {
-          },
-          label = { Text(text = stringResource(id = R.string.chat_entry_label)) }
-        )
-
-        Button(onClick = {}) {
-          Text(text = stringResource(id = R.string.send_button))
+/**
+ * a [Message] with additional user information
+ */
+data class MessageUiModel (
+    val message: Message,
+    val user: User,
+    val id: String = message._id
+        ) {
+    companion object {
+        operator fun invoke(message: Message, users: List<User>) : MessageUiModel {
+            var messageSender: User? = null
+            for (user in users) {
+                if (user.id == message.userId) {
+                    messageSender = user
+                }
+            }
+            messageSender?.let {
+                return MessageUiModel(user = messageSender, message = message)
+            }
+            val noUserFound = User()
+            return MessageUiModel(user = noUserFound, message = message)
         }
-      }
     }
-  }
+    constructor(message: Message, user: User) : this(
+        id = message._id,
+        message = message,
+        user = user
+    )
 }
