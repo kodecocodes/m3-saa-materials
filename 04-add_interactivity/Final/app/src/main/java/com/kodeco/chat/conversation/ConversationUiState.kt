@@ -56,7 +56,7 @@ class ConversationUiState(
   fun addMessage(msg: String, photoUri: Uri?) {
     val message = Message(text = msg)
     val messageModel = MessageUiModel(message = message, user = meUser)
-    _messages.add( messageModel) // Add to the beginning of the list
+    _messages.add(messageModel) // Add to the beginning of the list
   }
 }
 

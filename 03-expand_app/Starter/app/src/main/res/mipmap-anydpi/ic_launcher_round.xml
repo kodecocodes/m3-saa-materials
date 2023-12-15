@@ -28,12 +28,13 @@
   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
 
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@drawable/ic_launcher_background" />
-    <foreground android:drawable="@drawable/ic_launcher_foreground" />
-    <monochrome android:drawable="@drawable/ic_launcher_foreground" />
+  <background android:drawable="@drawable/ic_launcher_background"/>
+  <foreground android:drawable="@drawable/ic_launcher_foreground"/>
+  <monochrome android:drawable="@drawable/ic_launcher_foreground"/>
 </adaptive-icon>

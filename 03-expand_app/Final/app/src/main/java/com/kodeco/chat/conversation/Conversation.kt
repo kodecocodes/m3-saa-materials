@@ -152,7 +152,7 @@ fun Messages(
     ) {
       itemsIndexed(
         items = messages,
-        key= { _, message -> message.id }
+        key = { _, message -> message.id }
       ) { index, content ->
         val prevAuthor = messages.getOrNull(index - 1)?.message?.userId
         val nextAuthor = messages.getOrNull(index + 1)?.message?.userId
@@ -160,7 +160,7 @@ fun Messages(
         val isFirstMessageByAuthor = prevAuthor != content.message.userId
         val isLastMessageByAuthor = nextAuthor != content.message.userId
         MessageUi(
-          onAuthorClick = {  },
+          onAuthorClick = { },
           msg = content,
           userId = userId ?: "",
           isFirstMessageByAuthor = isFirstMessageByAuthor,
@@ -237,7 +237,8 @@ fun AuthorAndTextMessage(
     ChatItemBubble(
       msg.message,
       isUserMe,
-      authorClicked = authorClicked)
+      authorClicked = authorClicked
+    )
     if (isFirstMessageByAuthor) {
       // Last bubble before next author
       Spacer(modifier = Modifier.height(8.dp))

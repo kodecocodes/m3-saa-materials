@@ -112,7 +112,7 @@ fun ConversationContent(uiState: ConversationUiState) {
           messages = uiState.messages,
           modifier = Modifier.weight(1f)
         )
-        UserInput(onMessageSent = {content ->
+        UserInput(onMessageSent = { content ->
           uiState.addMessage(
             content, null
           )

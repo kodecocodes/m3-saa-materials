@@ -63,7 +63,8 @@ class MainActivity : ComponentActivity() {
         val context = LocalContext.current
         val chatInputText by remember { mutableStateOf(context.getString(R.string.chat_entry_default)) }
         val chatOutputText by remember { mutableStateOf(context.getString(R.string.chat_display_default)) }
-        Text(text = chatOutputText,
+        Text(
+          text = chatOutputText,
           fontStyle = FontStyle.Italic, // 1
           color = Color.Magenta, // 2
           fontSize = 30.sp, // 3
@@ -78,7 +79,8 @@ class MainActivity : ComponentActivity() {
           label = { Text(text = stringResource(id = R.string.chat_entry_label)) }
         )
 
-        Button(onClick = {},
+        Button(
+          onClick = {},
           Modifier
             .width(200.dp)
             .align(alignment = Alignment.CenterHorizontally)
