@@ -36,8 +36,11 @@ package com.kodeco.chat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -59,7 +62,12 @@ class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      Column {
+      Column(
+        modifier = Modifier
+//          .background(Color.LightGray)
+          .fillMaxSize()
+          .padding(16.dp)
+      ) {
         val context = LocalContext.current
         val chatInputText by remember { mutableStateOf(context.getString(R.string.chat_entry_default)) }
         val chatOutputText by remember { mutableStateOf(context.getString(R.string.chat_display_default)) }
@@ -68,23 +76,30 @@ class MainActivity : ComponentActivity() {
           fontStyle = FontStyle.Italic, // 1
           color = Color.Magenta, // 2
           fontSize = 30.sp, // 3
-          fontWeight = FontWeight.Bold // 4
+          fontWeight = FontWeight.Bold, // 4
+          modifier = Modifier
+            .background(Color.Blue)
+            .padding(16.dp)
         )
 
         OutlinedTextField(
           value = chatInputText,
-          modifier = Modifier.fillMaxWidth(),
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .background(Color.Green)
+          ,
+
           onValueChange = {
           },
           label = { Text(text = stringResource(id = R.string.chat_entry_label)) }
         )
 
-        Button(
-          onClick = {},
+        Button(onClick = {},
           Modifier
             .width(200.dp)
             .align(alignment = Alignment.CenterHorizontally)
-        ) {
+          ) {
           Text(text = stringResource(id = R.string.send_button))
         }
       }
