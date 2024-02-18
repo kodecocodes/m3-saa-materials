@@ -72,6 +72,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -116,8 +117,8 @@ fun ConversationContent(uiState: ConversationUiState) {
 @Composable
 fun SimpleUserInput() {
   val context = LocalContext.current
-  val chatInputText by remember { mutableStateOf("") }
-  val chatOutputText by remember { mutableStateOf(context.getString(R.string.chat_display_default)) }
+  var chatInputText by remember { mutableStateOf("") }
+  var chatOutputText by remember { mutableStateOf(context.getString(R.string.chat_display_default)) }
   Text(text = chatOutputText)
 
   Row {
