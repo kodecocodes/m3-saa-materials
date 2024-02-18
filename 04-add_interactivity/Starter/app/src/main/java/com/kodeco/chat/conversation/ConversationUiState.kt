@@ -52,7 +52,7 @@ class ConversationUiState(
   val messages: List<MessageUiModel> = _messages
 
   fun addMessage(msg: String, photoUri: Uri?) {
-    // TODO : implement in Chapter 6 😀
+    // TODO : implement 😀
   }
 }
 
