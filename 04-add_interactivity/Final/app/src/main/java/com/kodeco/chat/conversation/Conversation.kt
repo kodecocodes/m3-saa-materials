@@ -120,7 +120,7 @@ fun ConversationContent(uiState: ConversationUiState) {
         })
       }
       // Channel name bar floats above the messages
-      ChannelNameBar(channelName = "Android Apprentice")
+      ChannelNameBar(channelName = "Android Fundamentals by Tutorials")
     }
   }
 }
