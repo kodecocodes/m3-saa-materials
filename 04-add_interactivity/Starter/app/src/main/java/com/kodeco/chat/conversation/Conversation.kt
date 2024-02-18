@@ -53,7 +53,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -73,7 +72,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -94,23 +92,18 @@ import com.kodeco.chat.utilities.isoToTimeAgo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConversationContent(uiState: ConversationUiState) {
-
-  val scrollState = rememberLazyListState()
-  val scope = rememberCoroutineScope()
   val topBarState = rememberTopAppBarState()
-  val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topBarState)
+  TopAppBarDefaults.pinnedScrollBehavior(topBarState)
 
   Surface() {
     Box(modifier = Modifier.fillMaxSize()) {
       Column(
         Modifier
           .fillMaxSize()
-//          .nestedScroll(scrollBehavior.nestedScrollConnection)
       ) {
         Messages(
           messages = uiState.messages,
           modifier = Modifier.weight(1f)
-//          scrollState = scrollState
         )
         SimpleUserInput()
       }
@@ -118,8 +111,6 @@ fun ConversationContent(uiState: ConversationUiState) {
       ChannelNameBar(channelName = "Android Apprentice")
     }
   }
-
-
 }
 
 @Composable
@@ -148,12 +139,10 @@ fun SimpleUserInput() {
 @Composable
 fun Messages(
   messages: List<MessageUiModel>,
-//  scrollState: LazyListState,
   modifier: Modifier = Modifier
 ) {
   Box(modifier = modifier) {
     LazyColumn(
-//      state = scrollState,
       // Add content padding so that the content can be scrolled (y-axis)
       // below the status bar + app bar
       contentPadding =
@@ -173,40 +162,12 @@ fun Messages(
         MessageUi(
           onAuthorClick = { },
           msg = content,
-          authorId = "me",
           userId = userId ?: "",
           isFirstMessageByAuthor = isFirstMessageByAuthor,
           isLastMessageByAuthor = isLastMessageByAuthor,
         )
       }
-
-
     }
-    // Jump to bottom button shows up when user scrolls past a threshold.
-    // Convert to pixels:
-//    val jumpThreshold = with(LocalDensity.current) {
-//      JumpToBottomThreshold.toPx()
-//    }
-
-    // Show the button if the first visible item is not the first one or if the offset is
-    // greater than the threshold.
-//    val jumpToBottomButtonEnabled by remember {
-//      derivedStateOf {
-//        scrollState.firstVisibleItemIndex != 0 ||
-//            scrollState.firstVisibleItemScrollOffset > jumpThreshold
-//      }
-//    }
-
-//    JumpToBottom(
-//      // Only show if the scroller is not at the bottom
-//      enabled = jumpToBottomButtonEnabled,
-//      onClicked = {
-//        scope.launch {
-//          scrollState.animateScrollToItem(0)
-//        }
-//      },
-//      modifier = Modifier.align(Alignment.BottomCenter)
-//    )
   }
 }
 
@@ -214,12 +175,11 @@ fun Messages(
 fun MessageUi(
   onAuthorClick: (String) -> Unit,
   msg: MessageUiModel,
-  authorId: String,
   userId: String,
   isFirstMessageByAuthor: Boolean,
   isLastMessageByAuthor: Boolean,
 ) {
-  val isUserMe = userId == "me" // hard coded for now, next chapter will be = authorId == userId
+  val isUserMe = userId == "me" // hard coded for now, later will be = authorId == userId
   val borderColor = if (isUserMe) {
     MaterialTheme.colorScheme.primary
   } else {
@@ -322,8 +282,8 @@ fun ChatItemBubble(
   isUserMe: Boolean,
   authorClicked: (String) -> Unit
 ) {
-  val ChatBubbleShape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
-  val pressedState = remember { mutableStateOf(false) }
+  val chatBubbleShape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
+  remember { mutableStateOf(false) }
   val backgroundBubbleColor = if (isUserMe) {
     MaterialTheme.colorScheme.primary
   } else {
@@ -333,7 +293,7 @@ fun ChatItemBubble(
   Column {
     Surface(
       color = backgroundBubbleColor,
-      shape = ChatBubbleShape
+      shape = chatBubbleShape
     ) {
       if (message.text.isNotEmpty()) {
         ClickableMessage(
